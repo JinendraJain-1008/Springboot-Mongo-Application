@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: springboot-deployment
-  namespace: production
+  namespace: test-ns
 spec:
   replicas: 2
   selector:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: spring-container
-        image: mithuntechnologies/springboot-mongo-application:1
+        image: jjtechnology/spring-boot-mongo:6
         ports:
         - containerPort: 8080
         resources:
