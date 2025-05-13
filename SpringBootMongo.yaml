@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: springappcontainer
-        image: jjtechnology/spring-boot-mongo:7
+        image: jjtechnology/spring-boot-mongo:13
         env:
         - name: MONGO_DB_HOSTNAME
           value: mongodb-service
@@ -95,6 +95,17 @@ spec:
          - "0.0.0.0"
          - "--replSet"
          - "MainRepSet"
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: springappconfig # Ensure this ConfigMap exists and has the key
+              key: mongodbusername
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: springappsecret # Ensure this Secret exists and has the key
+              key: mongodbpassword
         resources:
           requests:
             cpu: 200m
@@ -128,3 +139,15 @@ spec:
   ports:
   - port: 27017
     targetPort: 27017
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mongodb-persistent-storage-claim # or any name
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true" # To make it default
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: mongodb-persistent-storage-claim
+  fsType: ext4
+volumeBindingMode: WaitForFirstConsumer
