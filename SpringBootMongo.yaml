@@ -139,15 +139,4 @@ spec:
   ports:
   - port: 27017
     targetPort: 27017
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: mongodb-persistent-storage-claim # or any name
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "true" # To make it default
-provisioner: kubernetes.io/aws-ebs
-parameters:
-  type: mongodb-persistent-storage-claim
-  fsType: ext4
-volumeBindingMode: WaitForFirstConsumer
+
