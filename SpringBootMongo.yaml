@@ -74,7 +74,7 @@ spec:
          - "MainRepSet"
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
-          value:jj
+          value: jj
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: jj@123
         resources:
